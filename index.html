@@ -16,8 +16,28 @@
       box-sizing: border-box;
     }
 
-    /* Body styling */
-    body {
+    /* Loading screen overlay */
+    #loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    #loading-overlay img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Main content styling (hidden initially) */
+    #main-content {
+      display: none; /* Hidden initially */
       display: flex;
       justify-content: center;
       align-items: center;
@@ -69,27 +89,46 @@
 
   <!-- LinkedIn Badge SDK -->
   <script src="https://platform.linkedin.com/badges/js/profile.js" async defer></script>
+
+  <!-- JavaScript to handle the loading screen timeout -->
+  <script>
+    window.addEventListener("load", function() {
+      // Show main content after 5 seconds and hide loading overlay
+      setTimeout(function() {
+        document.getElementById("loading-overlay").style.display = "none";
+        document.getElementById("main-content").style.display = "flex";
+      }, 5000); // 5000ms = 5 seconds
+    });
+  </script>
 </head>
 <body>
-  <div class="badge-container">
-    <!-- LinkedIn Badge -->
-    <div class="badge-base LI-profile-badge" 
-         data-locale="en_US" 
-         data-size="large" 
-         data-theme="dark" 
-         data-type="HORIZONTAL" 
-         data-vanity="parkerrossignol" 
-         data-version="v1">
-    </div>
+  <!-- Loading screen overlay with GIF -->
+  <div id="loading-overlay">
+    <img src="/mnt/data/7rF7.gif" alt="Loading">
   </div>
 
-  <!-- Bottom-right corner text with crocodile hover effect -->
-  <div class="corner-text">
-    JAX | 
-    <span class="hover-target">U Florida
-      <span class="crocodile">🐊</span>
-    </span> |
-    DC
+  <!-- Main website content -->
+  <div id="main-content">
+    <div class="badge-container">
+      <!-- LinkedIn Badge -->
+      <div class="badge-base LI-profile-badge" 
+           data-locale="en_US" 
+           data-size="large" 
+           data-theme="dark" 
+           data-type="HORIZONTAL" 
+           data-vanity="parkerrossignol" 
+           data-version="v1">
+      </div>
+    </div>
+
+    <!-- Bottom-right corner text with crocodile hover effect -->
+    <div class="corner-text">
+      JAX | 
+      <span class="hover-target">U Florida
+        <span class="crocodile">🐊</span>
+      </span> |
+      DC
+    </div>
   </div>
 </body>
 </html>
