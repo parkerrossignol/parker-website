@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LinkedIn Badge</title>
+  <title>Parker Rossignol</title>
   <style>
     /* Basic reset */
     * {
@@ -20,11 +20,22 @@
       height: 100vh;
       background: linear-gradient(to bottom, grey, white);
       font-family: Arial, sans-serif;
+      position: relative;
     }
 
     /* Centering the LinkedIn badge */
     .badge-container {
       text-align: center;
+    }
+
+    /* Bottom-right text styling */
+    .corner-text {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      font-family: Verdana, sans-serif;
+      font-size: 14px;
+      color: black;
     }
   </style>
 
@@ -33,7 +44,7 @@
 </head>
 <body>
   <div class="badge-container">
-    <!-- LinkedIn Badge - Remove the inner <a> tag to prevent redundant links -->
+    <!-- LinkedIn Badge -->
     <div class="badge-base LI-profile-badge" 
          data-locale="en_US" 
          data-size="large" 
@@ -43,5 +54,8 @@
          data-version="v1">
     </div>
   </div>
+
+  <!-- Bottom-right corner text -->
+  <div class="corner-text">JAX | U Florida | DC</div>
 </body>
 </html>
