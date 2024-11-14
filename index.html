@@ -37,6 +37,18 @@
       font-size: 14px;
       color: black;
     }
+
+    /* Crocodile emoticon styling */
+    .corner-text .crocodile {
+      display: none; /* Hidden by default */
+      font-size: 18px;
+      margin-left: 5px;
+    }
+
+    /* Show the crocodile on hover */
+    .corner-text .hover-target:hover + .crocodile {
+      display: inline;
+    }
   </style>
 
   <!-- LinkedIn Badge SDK -->
@@ -55,7 +67,12 @@
     </div>
   </div>
 
-  <!-- Bottom-right corner text -->
-  <div class="corner-text">JAX | U Florida | DC</div>
+  <!-- Bottom-right corner text with crocodile hover effect -->
+  <div class="corner-text">
+    JAX | 
+    <span class="hover-target">U Florida</span>
+    <span class="crocodile">🐊</span> |
+    DC
+  </div>
 </body>
 </html>
