@@ -87,8 +87,31 @@
     }
   </style>
 
-  <!-- LinkedIn Badge SDK -->
+  <!-- LinkedIn Badge SDK with fallback -->
   <script src="https://platform.linkedin.com/badges/js/profile.js" async defer></script>
+  <script>
+    // Function to check if LinkedIn SDK loaded successfully
+    function checkLinkedInBadge() {
+      setTimeout(function() {
+        const badge = document.querySelector('.badge-base');
+        if (!badge || !badge.innerHTML.trim()) {
+          // If badge didn't load, create fallback link
+          const fallbackHTML = `
+            <a href="https://www.linkedin.com/in/parkerrossignol" target="_blank" 
+               style="display: inline-block; background: #0A66C2; color: white; 
+                      padding: 10px 20px; border-radius: 4px; text-decoration: none; 
+                      font-family: Arial, sans-serif;">
+              View Parker's LinkedIn Profile
+            </a>
+          `;
+          document.querySelector('.badge-container').innerHTML = fallbackHTML;
+        }
+      }, 3000); // Check after 3 seconds
+    }
+
+    // Call the check function when window loads
+    window.addEventListener('load', checkLinkedInBadge);
+  </script>
 
   <!-- JavaScript to handle the loading screen timeout -->
   <script>
@@ -98,14 +121,6 @@
         document.getElementById("loading-overlay").style.display = "none";
         document.getElementById("main-content").style.display = "flex";
       }, 2000); // 2000ms = 2 seconds
-
-      // Check if the LinkedIn badge loaded, and show a fallback if not
-      const badge = document.querySelector('.LI-profile-badge');
-      const fallback = document.querySelector('#badge-fallback');
-      if (badge && badge.offsetHeight === 0) {
-        fallback.style.display = 'block';
-        badge.style.display = 'none';
-      }
     });
   </script>
 </head>
@@ -126,12 +141,6 @@
            data-type="HORIZONTAL" 
            data-vanity="parkerrossignol" 
            data-version="v1">
-      </div>
-      <!-- Fallback for LinkedIn Badge -->
-      <div id="badge-fallback" style="display: none; font-family: Arial, sans-serif; font-size: 16px;">
-        <a href="https://www.linkedin.com/in/parkerrossignol" target="_blank" style="text-decoration: none; color: black;">
-          Visit Parker Rossignol on LinkedIn
-        </a>
       </div>
     </div>
 
