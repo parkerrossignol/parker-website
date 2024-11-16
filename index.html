@@ -53,7 +53,6 @@
 
     #main-content {
       display: none;
-      display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
@@ -69,7 +68,7 @@
     }
 
     .fallback-button {
-      display: none; /* Hidden initially */
+      display: none;
       align-items: center;
       background-color: #0a043c;
       color: white;
@@ -86,11 +85,67 @@
       margin-right: 10px;
       border-radius: 50%;
     }
+
+    /* Bottom-right corner text */
+    .corner-text {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      font-family: Verdana, sans-serif;
+      font-size: 14px;
+      color: black;
+      display: flex;
+      align-items: center;
+    }
+
+    .hover-target {
+      position: relative;
+      display: inline-block;
+    }
+
+    .crocodile {
+      position: absolute;
+      font-size: 24px;
+      top: -28px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: none;
+      z-index: 10;
+    }
+
+    .hover-target:hover .crocodile {
+      display: inline;
+    }
+
+    /* Laser light show */
+    #laser-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      z-index: 2000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      animation: laser-animation 0.5s infinite;
+    }
+
+    @keyframes laser-animation {
+      0% { background-color: red; }
+      25% { background-color: green; }
+      50% { background-color: blue; }
+      75% { background-color: yellow; }
+      100% { background-color: magenta; }
+    }
   </style>
 
   <!-- LinkedIn Badge SDK -->
   <script src="https://platform.linkedin.com/badges/js/profile.js" async defer></script>
   <script>
+    let jaxClickCount = 0;
+
     window.addEventListener("load", function () {
       // Hide loading overlay after 2 seconds and show main content
       setTimeout(function () {
@@ -101,12 +156,26 @@
         const badge = document.querySelector('.badge-base');
         setTimeout(function () {
           if (!badge || !badge.innerHTML.trim()) {
-            // Show fallback if LinkedIn badge doesn't load
             document.querySelector('.fallback-button').style.display = 'inline-flex';
           }
-        }, 2000); // Allow time for LinkedIn API to initialize
-      }, 2000); // 2 seconds for loading screen
+        }, 2000);
+      }, 2000);
     });
+
+    function triggerLaserShow() {
+      const laserOverlay = document.getElementById('laser-overlay');
+      laserOverlay.style.display = 'flex';
+      setTimeout(() => { laserOverlay.style.display = 'none'; }, 5000); // Show for 5 seconds
+    }
+
+    // Increment JAX click count and trigger laser show
+    function handleJaxClick() {
+      jaxClickCount++;
+      if (jaxClickCount === 5) {
+        jaxClickCount = 0; // Reset the count
+        triggerLaserShow();
+      }
+    }
   </script>
 </head>
 <body>
@@ -114,6 +183,9 @@
   <div id="loading-overlay">
     <img src="7rF7.gif" alt="Loading">
   </div>
+
+  <!-- Laser light show -->
+  <div id="laser-overlay"></div>
 
   <!-- Main content -->
   <div id="main-content">
@@ -132,6 +204,15 @@
         <img src="July%202023%20Headshot.JPG" alt="Headshot">
         Connect with Parker Rossignol on LinkedIn
       </a>
+    </div>
+
+    <!-- Corner text -->
+    <div class="corner-text">
+      <span onclick="handleJaxClick()">JAX</span> | 
+      <span class="hover-target">U Florida
+        <span class="crocodile">🐊</span>
+      </span> | 
+      DC
     </div>
   </div>
 </body>
