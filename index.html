@@ -5,8 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Parker Rossignol</title>
 
-  <!-- Favicon with a waving hand emoji -->
+  <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22><text y=%2214%22 font-size=%2216%22>👋</text></svg>">
+
+  <!-- SEO metadata -->
+  <meta name="description" content="Connect with Parker Rossignol on LinkedIn. Showcasing professional achievements and career highlights.">
+  <meta name="keywords" content="Parker Rossignol, LinkedIn, professional profile, career">
+  <meta property="og:title" content="Parker Rossignol | LinkedIn Profile">
+  <meta property="og:image" content="July%202023%20Headshot.JPG">
 
   <style>
     /* Basic reset */
@@ -16,7 +22,10 @@
       box-sizing: border-box;
     }
 
-    /* Loading screen overlay */
+    body {
+      transition: background-color 0.5s, color 0.5s;
+    }
+
     #loading-overlay {
       position: fixed;
       top: 0;
@@ -28,6 +37,13 @@
       justify-content: center;
       align-items: center;
       z-index: 1000;
+      opacity: 1;
+      transition: opacity 0.5s;
+    }
+
+    #loading-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
     }
 
     #loading-overlay img {
@@ -35,27 +51,44 @@
       height: auto;
     }
 
-    /* Main content styling (hidden initially) */
     #main-content {
-      display: none; /* Hidden initially */
+      display: none;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
       background: linear-gradient(to bottom, grey, white);
       font-family: Arial, sans-serif;
       position: relative;
-      overflow: hidden; /* Prevents scrolling */
+      overflow: hidden;
     }
 
-    /* Centering the LinkedIn badge */
     .badge-container {
       text-align: center;
     }
 
-    /* Bottom-right text styling */
+    .fallback-button {
+      display: inline-flex;
+      align-items: center;
+      background-color: #0a043c;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-family: Arial, sans-serif;
+      margin-top: 10px;
+    }
+
+    .fallback-button img {
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+      border-radius: 50%;
+    }
+
     .corner-text {
-      position: fixed; /* Ensures it stays in the viewport corner */
+      position: fixed;
       bottom: 10px;
       right: 10px;
       font-family: Verdana, sans-serif;
@@ -65,7 +98,6 @@
       align-items: center;
     }
 
-    /* Hover-target and crocodile styling */
     .hover-target {
       position: relative;
       display: inline-block;
@@ -73,85 +105,139 @@
 
     .crocodile {
       position: absolute;
-      font-size: 24px; /* Increased to 24px */
-      top: -28px; /* Adjusted to position slightly higher */
+      font-size: 24px;
+      top: -30px;
       left: 50%;
-      transform: translateX(-50%); /* Centers the crocodile above "U Florida" */
+      transform: translateX(-50%);
       display: none;
-      z-index: 10; /* Ensures it appears above other elements */
+      transition: transform 0.3s ease;
     }
 
-    /* Show the crocodile on hover */
     .hover-target:hover .crocodile {
       display: inline;
+      transform: translateX(-50%) scale(1.2);
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background-color: grey;
+      color: white;
+      padding: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    /* Laser light show */
+    #laser-show {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      z-index: 1000; /* Same level as loading overlay */
+      pointer-events: none;
+      display: none;
+    }
+
+    .laser {
+      position: absolute;
+      width: 5px;
+      height: 100%;
+      background: linear-gradient(to top, red, orange, yellow, green, blue, purple);
+      animation: laser-animation 2s infinite;
+    }
+
+    @keyframes laser-animation {
+      0% {
+        transform: translateY(100%);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+    }
+
+    #main-content > * {
+      z-index: 2000; /* Ensure main content stays above the laser effect */
     }
   </style>
 
-  <!-- LinkedIn Badge SDK with fallback -->
-  <script src="https://platform.linkedin.com/badges/js/profile.js" async defer></script>
   <script>
-    // Function to check if LinkedIn SDK loaded successfully
-    function checkLinkedInBadge() {
-      setTimeout(function() {
-        const badge = document.querySelector('.badge-base');
-        if (!badge || !badge.innerHTML.trim()) {
-          // If badge didn't load, create fallback link
-          const fallbackHTML = `
-            <a href="https://www.linkedin.com/in/parkerrossignol" target="_blank" 
-               style="display: inline-block; background: #0A66C2; color: white; 
-                      padding: 10px 20px; border-radius: 4px; text-decoration: none; 
-                      font-family: Arial, sans-serif;">
-              View Parker's LinkedIn Profile
-            </a>
-          `;
-          document.querySelector('.badge-container').innerHTML = fallbackHTML;
-        }
-      }, 3000); // Check after 3 seconds
+    // Theme toggle
+    function toggleTheme() {
+      document.body.classList.toggle('dark-theme');
+      document.body.style.backgroundColor = document.body.classList.contains('dark-theme') ? 'black' : 'white';
+      document.body.style.color = document.body.classList.contains('dark-theme') ? 'white' : 'black';
     }
 
-    // Call the check function when window loads
-    window.addEventListener('load', checkLinkedInBadge);
-  </script>
-
-  <!-- JavaScript to handle the loading screen timeout -->
-  <script>
-    window.addEventListener("load", function() {
-      // Show main content after 2 seconds and hide loading overlay
-      setTimeout(function() {
-        document.getElementById("loading-overlay").style.display = "none";
+    // Loading overlay
+    window.addEventListener("load", function () {
+      setTimeout(() => {
+        document.getElementById("loading-overlay").classList.add("hidden");
         document.getElementById("main-content").style.display = "flex";
-      }, 2000); // 2000ms = 2 seconds
+      }, 2000);
     });
+
+    // Laser light show
+    let clickCount = 0;
+    function triggerLaserShow() {
+      clickCount++;
+      if (clickCount === 5) {
+        const laserShow = document.getElementById("laser-show");
+        laserShow.style.display = "block";
+
+        // Generate random laser beams
+        for (let i = 0; i < 20; i++) {
+          const laser = document.createElement("div");
+          laser.classList.add("laser");
+          laser.style.left = Math.random() * 100 + "vw";
+          laser.style.animationDelay = Math.random() * 0.5 + "s";
+          laserShow.appendChild(laser);
+        }
+
+        // Remove laser show after 5 seconds
+        setTimeout(() => {
+          laserShow.style.display = "none";
+          laserShow.innerHTML = ""; // Clear lasers
+          clickCount = 0; // Reset counter
+        }, 5000);
+      }
+    }
   </script>
 </head>
 <body>
-  <!-- Loading screen overlay with GIF -->
+  <!-- Loading screen -->
   <div id="loading-overlay">
     <img src="7rF7.gif" alt="Loading">
   </div>
 
-  <!-- Main website content -->
+  <!-- Main content -->
   <div id="main-content">
     <div class="badge-container">
-      <!-- LinkedIn Badge -->
-      <div class="badge-base LI-profile-badge" 
-           data-locale="en_US" 
-           data-size="large" 
-           data-theme="dark" 
-           data-type="HORIZONTAL" 
-           data-vanity="parkerrossignol" 
-           data-version="v1">
-      </div>
+      <div class="badge-base LI-profile-badge" data-locale="en_US" data-size="large" data-theme="dark" data-type="HORIZONTAL" data-vanity="parkerrossignol" data-version="v1"></div>
+      <a class="fallback-button" href="https://www.linkedin.com/in/parkerrossignol" target="_blank">
+        <img src="July%202023%20Headshot.JPG" alt="Headshot">
+        Connect with Parker Rossignol on LinkedIn
+      </a>
     </div>
 
-    <!-- Bottom-right corner text with crocodile hover effect -->
     <div class="corner-text">
-      JAX | 
+      <span onclick="triggerLaserShow()">JAX</span> |
       <span class="hover-target">U Florida
         <span class="crocodile">🐊</span>
       </span> |
       DC
     </div>
+
+    <div class="theme-toggle" onclick="toggleTheme()">🌓</div>
   </div>
+
+  <!-- Laser light show container -->
+  <div id="laser-show"></div>
 </body>
 </html>
