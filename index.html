@@ -69,7 +69,7 @@
     }
 
     .fallback-button {
-      display: inline-flex;
+      display: none; /* Hidden initially */
       align-items: center;
       background-color: #0a043c;
       color: white;
@@ -86,128 +86,27 @@
       margin-right: 10px;
       border-radius: 50%;
     }
-
-    .corner-text {
-      position: fixed;
-      bottom: 10px;
-      right: 10px;
-      font-family: Verdana, sans-serif;
-      font-size: 14px;
-      color: black;
-      display: flex;
-      align-items: center;
-    }
-
-    .hover-target {
-      position: relative;
-      display: inline-block;
-    }
-
-    .crocodile {
-      position: absolute;
-      font-size: 24px;
-      top: -30px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: none;
-      transition: transform 0.3s ease;
-    }
-
-    .hover-target:hover .crocodile {
-      display: inline;
-      transform: translateX(-50%) scale(1.2);
-    }
-
-    .theme-toggle {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      background-color: grey;
-      color: white;
-      padding: 10px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    /* Laser light show */
-    #laser-show {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: black;
-      z-index: 1000; /* Same level as loading overlay */
-      pointer-events: none;
-      display: none;
-    }
-
-    .laser {
-      position: absolute;
-      width: 5px;
-      height: 100%;
-      background: linear-gradient(to top, red, orange, yellow, green, blue, purple);
-      animation: laser-animation 2s infinite;
-    }
-
-    @keyframes laser-animation {
-      0% {
-        transform: translateY(100%);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-100%);
-        opacity: 0;
-      }
-    }
-
-    #main-content > * {
-      z-index: 2000; /* Ensure main content stays above the laser effect */
-    }
   </style>
 
+  <!-- LinkedIn Badge SDK -->
+  <script src="https://platform.linkedin.com/badges/js/profile.js" async defer></script>
   <script>
-    // Theme toggle
-    function toggleTheme() {
-      document.body.classList.toggle('dark-theme');
-      document.body.style.backgroundColor = document.body.classList.contains('dark-theme') ? 'black' : 'white';
-      document.body.style.color = document.body.classList.contains('dark-theme') ? 'white' : 'black';
-    }
-
-    // Loading overlay
     window.addEventListener("load", function () {
-      setTimeout(() => {
+      // Hide loading overlay after 2 seconds and show main content
+      setTimeout(function () {
         document.getElementById("loading-overlay").classList.add("hidden");
         document.getElementById("main-content").style.display = "flex";
-      }, 2000);
+
+        // Check for LinkedIn badge
+        const badge = document.querySelector('.badge-base');
+        setTimeout(function () {
+          if (!badge || !badge.innerHTML.trim()) {
+            // Show fallback if LinkedIn badge doesn't load
+            document.querySelector('.fallback-button').style.display = 'inline-flex';
+          }
+        }, 2000); // Allow time for LinkedIn API to initialize
+      }, 2000); // 2 seconds for loading screen
     });
-
-    // Laser light show
-    let clickCount = 0;
-    function triggerLaserShow() {
-      clickCount++;
-      if (clickCount === 5) {
-        const laserShow = document.getElementById("laser-show");
-        laserShow.style.display = "block";
-
-        // Generate random laser beams
-        for (let i = 0; i < 20; i++) {
-          const laser = document.createElement("div");
-          laser.classList.add("laser");
-          laser.style.left = Math.random() * 100 + "vw";
-          laser.style.animationDelay = Math.random() * 0.5 + "s";
-          laserShow.appendChild(laser);
-        }
-
-        // Remove laser show after 5 seconds
-        setTimeout(() => {
-          laserShow.style.display = "none";
-          laserShow.innerHTML = ""; // Clear lasers
-          clickCount = 0; // Reset counter
-        }, 5000);
-      }
-    }
   </script>
 </head>
 <body>
@@ -219,25 +118,21 @@
   <!-- Main content -->
   <div id="main-content">
     <div class="badge-container">
-      <div class="badge-base LI-profile-badge" data-locale="en_US" data-size="large" data-theme="dark" data-type="HORIZONTAL" data-vanity="parkerrossignol" data-version="v1"></div>
+      <!-- LinkedIn Badge -->
+      <div class="badge-base LI-profile-badge" 
+           data-locale="en_US" 
+           data-size="large" 
+           data-theme="dark" 
+           data-type="HORIZONTAL" 
+           data-vanity="parkerrossignol" 
+           data-version="v1"></div>
+
+      <!-- Fallback button -->
       <a class="fallback-button" href="https://www.linkedin.com/in/parkerrossignol" target="_blank">
         <img src="July%202023%20Headshot.JPG" alt="Headshot">
         Connect with Parker Rossignol on LinkedIn
       </a>
     </div>
-
-    <div class="corner-text">
-      <span onclick="triggerLaserShow()">JAX</span> |
-      <span class="hover-target">U Florida
-        <span class="crocodile">🐊</span>
-      </span> |
-      DC
-    </div>
-
-    <div class="theme-toggle" onclick="toggleTheme()">🌓</div>
   </div>
-
-  <!-- Laser light show container -->
-  <div id="laser-show"></div>
 </body>
 </html>
