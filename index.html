@@ -26,31 +26,6 @@
       transition: background-color 0.5s, color 0.5s;
     }
 
-    #loading-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: black;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      opacity: 1;
-      transition: opacity 0.5s;
-    }
-
-    #loading-overlay.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    #loading-overlay img {
-      max-width: 100%;
-      height: auto;
-    }
-
     #main-content {
       display: none;
       flex-direction: column;
