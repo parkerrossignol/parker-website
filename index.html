@@ -149,12 +149,6 @@
   <script>
     let jaxClickCount = 0;
 
-    window.addEventListener("load", function () {
-      // Hide loading overlay after 2 seconds and show main content
-      setTimeout(function () {
-        document.getElementById("loading-overlay").classList.add("hidden");
-        document.getElementById("main-content").style.display = "flex";
-
         // Check for LinkedIn badge
         const badge = document.querySelector('.badge-base');
         setTimeout(function () {
@@ -182,10 +176,6 @@
   </script>
 </head>
 <body>
-  <!-- Loading screen -->
-  <div id="loading-overlay">
-    <img src="7rF7.gif" alt="Loading">
-  </div>
 
   <!-- Laser light show -->
   <div id="laser-overlay"></div>
