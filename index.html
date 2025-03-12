@@ -24,23 +24,24 @@
 
     body {
       transition: background-color 0.5s, color 0.5s;
+      background: linear-gradient(to bottom, grey, white);
+      font-family: Arial, sans-serif;
+      overflow: hidden;
     }
 
+    /* Main Content */
     #main-content {
-      display: none;
+      display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background: linear-gradient(to bottom, grey, white);
-      font-family: Arial, sans-serif;
       position: relative;
-      overflow: hidden;
     }
 
     .badge-container {
       text-align: center;
-      z-index: 3000; /* Ensures it is above all other layers */
+      z-index: 3000;
       position: relative;
     }
 
@@ -73,7 +74,7 @@
       color: black;
       display: flex;
       align-items: center;
-      z-index: 3000; /* Ensures it appears above the laser show */
+      z-index: 3000;
     }
 
     .hover-target {
@@ -103,7 +104,7 @@
       width: 100%;
       height: 100%;
       background: black;
-      z-index: 2000; /* Ensures it does not cover the badge or corner text */
+      z-index: 2000;
       display: none;
       justify-content: center;
       align-items: center;
@@ -124,34 +125,33 @@
   <script>
     let jaxClickCount = 0;
 
-        // Check for LinkedIn badge
+    window.addEventListener("load", function () {
+      // Check for LinkedIn badge
+      setTimeout(function () {
         const badge = document.querySelector('.badge-base');
-        setTimeout(function () {
-          if (!badge || !badge.innerHTML.trim()) {
-            document.querySelector('.fallback-button').style.display = 'inline-flex';
-          }
-        }, 2000);
+        if (!badge || !badge.innerHTML.trim()) {
+          document.querySelector('.fallback-button').style.display = 'inline-flex';
+        }
       }, 2000);
     });
 
     function triggerLaserShow() {
       const laserOverlay = document.getElementById('laser-overlay');
       laserOverlay.style.display = 'flex';
-      setTimeout(() => { laserOverlay.style.display = 'none'; }, 5000); // Show for 5 seconds
+      setTimeout(() => { laserOverlay.style.display = 'none'; }, 5000);
     }
 
     // Increment JAX click count and trigger laser show
     function handleJaxClick() {
       jaxClickCount++;
       if (jaxClickCount === 5) {
-        jaxClickCount = 0; // Reset the count
+        jaxClickCount = 0;
         triggerLaserShow();
       }
     }
   </script>
 </head>
 <body>
-
   <!-- Laser light show -->
   <div id="laser-overlay"></div>
 
