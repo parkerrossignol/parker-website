@@ -5,17 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Parker Rossignol</title>
 
-  <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22><text y=%2214%22 font-size=%2216%22>👋</text></svg>">
 
-  <!-- SEO metadata -->
   <meta name="description" content="Connect with Parker Rossignol on LinkedIn. Showcasing professional achievements and career highlights.">
   <meta name="keywords" content="Parker Rossignol, LinkedIn, professional profile, career">
   <meta property="og:title" content="Parker Rossignol | LinkedIn Profile">
   <meta property="og:image" content="July%202023%20Headshot.JPG">
 
   <style>
-    /* Basic reset */
     * {
       margin: 0;
       padding: 0;
@@ -29,7 +26,6 @@
       overflow: hidden;
     }
 
-    /* Main Content */
     #main-content {
       display: flex;
       flex-direction: column;
@@ -64,7 +60,6 @@
       border-radius: 50%;
     }
 
-    /* Bottom-right corner text */
     .corner-text {
       position: fixed;
       bottom: 10px;
@@ -75,6 +70,7 @@
       display: flex;
       align-items: center;
       z-index: 3000;
+      gap: 6px;
     }
 
     .hover-target {
@@ -96,7 +92,7 @@
       display: inline;
     }
 
-    /* Laser light show */
+    /* Laser light show (JAX) */
     #laser-overlay {
       position: fixed;
       top: 0;
@@ -118,15 +114,71 @@
       75% { background-color: yellow; }
       100% { background-color: magenta; }
     }
+
+    /* DC Map Frame Overlay */
+    #dc-frame-overlay {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 900px;
+      background: white;
+      border: 3px solid #0a043c;
+      border-radius: 8px;
+      z-index: 4000;
+      display: none;
+      box-shadow: 0 0 30px rgba(0,0,0,0.4);
+      overflow: hidden;
+      opacity: 0;
+    }
+
+    /* Fade-in animation */
+    .fade-in {
+      display: block !important;
+      animation: fadeIn 1s forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translate(-50%, -50%) scale(0.97); }
+      to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    }
+
+    #dc-frame-content {
+      width: 100%;
+      height: 70vh;
+      overflow: hidden;
+    }
+
+    #close-dc-frame {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 22px;
+      color: #0a043c;
+      cursor: pointer;
+      font-weight: bold;
+      z-index: 5000;
+    }
+
+    @media (max-width: 600px) {
+      #dc-frame-overlay {
+        width: 95%;
+      }
+      #close-dc-frame {
+        font-size: 26px;
+        top: 6px;
+        right: 10px;
+      }
+    }
   </style>
 
-  <!-- LinkedIn Badge SDK -->
   <script src="https://platform.linkedin.com/badges/js/profile.js" async defer></script>
   <script>
     let jaxClickCount = 0;
+    let dcClickCount = 0;
 
     window.addEventListener("load", function () {
-      // Check for LinkedIn badge
       setTimeout(function () {
         const badge = document.querySelector('.badge-base');
         if (!badge || !badge.innerHTML.trim()) {
@@ -135,13 +187,13 @@
       }, 2000);
     });
 
+    // JAX laser show
     function triggerLaserShow() {
       const laserOverlay = document.getElementById('laser-overlay');
       laserOverlay.style.display = 'flex';
       setTimeout(() => { laserOverlay.style.display = 'none'; }, 5000);
     }
 
-    // Increment JAX click count and trigger laser show
     function handleJaxClick() {
       jaxClickCount++;
       if (jaxClickCount === 5) {
@@ -149,16 +201,44 @@
         triggerLaserShow();
       }
     }
+
+    // DC map frame logic
+    function handleDcClick() {
+      dcClickCount++;
+      if (dcClickCount === 5) {
+        dcClickCount = 0;
+        const dcFrame = document.getElementById('dc-frame-overlay');
+        dcFrame.classList.add('fade-in');
+      }
+    }
+
+    function closeDcFrame() {
+      const dcFrame = document.getElementById('dc-frame-overlay');
+      dcFrame.classList.remove('fade-in');
+      dcFrame.style.display = 'none';
+    }
   </script>
 </head>
 <body>
-  <!-- Laser light show -->
   <div id="laser-overlay"></div>
 
-  <!-- Main content -->
+  <!-- DC Frame Overlay -->
+  <div id="dc-frame-overlay">
+    <span id="close-dc-frame" onclick="closeDcFrame()">✖</span>
+    <div id="dc-frame-content">
+      <div style="max-width:980px;margin:5px auto 10px auto;font-size:14px;">
+        <div style="position:relative;padding:0 0 70% 0;height:0;overflow:hidden;">
+          <iframe style="position:absolute;top:0;left:0;width:100%;height:100%;" 
+            src="//www.fla-shop.com/visited-states/embed/?st=AL%2CDC%2CDE%2CFL%2CGA%2CIA%2CIL%2CKY%2CLA%2CMD%2CMS%2CNC%2CNE%2CNY%2COH%2CSC%2CTN%2CVA&vc=ffa270&uc=278396&hc=40bfa6&bc=ffffff&ss=on&sl=on" 
+            frameborder="0" scrolling="no"></iframe>
+        </div>
+        Map by <a href="https://www.fla-shop.com/visited-states/">Fla-shop.com</a>
+      </div>
+    </div>
+  </div>
+
   <div id="main-content">
     <div class="badge-container">
-      <!-- LinkedIn Badge -->
       <div class="badge-base LI-profile-badge" 
            data-locale="en_US" 
            data-size="large" 
@@ -167,20 +247,18 @@
            data-vanity="parkerrossignol" 
            data-version="v1"></div>
 
-      <!-- Fallback button -->
       <a class="fallback-button" href="https://www.linkedin.com/in/parkerrossignol" target="_blank">
         <img src="July%202023%20Headshot.JPG" alt="Headshot">
         Connect with Parker Rossignol on LinkedIn
       </a>
     </div>
 
-    <!-- Corner text -->
     <div class="corner-text">
       <span onclick="handleJaxClick()">JAX</span> | 
       <span class="hover-target">U Florida
         <span class="crocodile">🐊</span>
       </span> | 
-      DC
+      <span onclick="handleDcClick()">DC</span>
     </div>
   </div>
 </body>
